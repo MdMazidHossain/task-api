@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  # 🚀 অ্যাপ্লিকেশন সার্ভিস
+  app:
+    build: ./app
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017/taskdb
+    depends_on:
+      - mongodb
+    volumes:
+      - ./app:/app
+      - /app/node_modules
+
+  # 🗄️ MongoDB সার্ভিস
+  mongodb:
+    image: mongo:7.0
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb-data:/data/db
+    environment:
+      - MONGO_INITDB_DATABASE=taskdb
+
+volumes:
+  mongodb-data:
